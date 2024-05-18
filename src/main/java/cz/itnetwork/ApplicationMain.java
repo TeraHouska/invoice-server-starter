@@ -31,5 +31,3 @@ public class ApplicationMain {
         SpringApplication.run(ApplicationMain.class, args);
     }
 }
-
-//TODO: doplnit třídy pro práci s fakturami
