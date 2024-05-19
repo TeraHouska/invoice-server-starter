@@ -30,4 +30,6 @@ public interface PersonService {
     List<PersonDTO> getAll();
 
     PersonDTO getPersonById(long id);
+
+    PersonDTO editPerson(long id, PersonDTO source);
 }

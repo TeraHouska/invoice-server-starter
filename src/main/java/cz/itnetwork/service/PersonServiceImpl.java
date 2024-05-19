@@ -74,6 +74,19 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDTO(personEntity);
     }
 
+    @Override
+    public PersonDTO editPerson(long personId, PersonDTO personDTO) {
+        try {
+            PersonEntity fetchedPersonEntity = fetchPersonById(personId);
+            fetchedPersonEntity.setHidden(true);
+            personRepository.save(fetchedPersonEntity);
+            return addPerson(personDTO);
+        } catch (NotFoundException ignored) {
+            // The contract in the interface states, that no exception is thrown, if the entity is not found.
+        }
+        return null;
+    }
+
     // region: Private methods
     /**
      * <p>Attempts to fetch a person.</p>

@@ -23,6 +23,7 @@ package cz.itnetwork.controller;
 
 import cz.itnetwork.dto.PersonDTO;
 import cz.itnetwork.service.PersonService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,14 @@ public class PersonController {
             @PathVariable long personId
     ) {
         return personService.getPersonById(personId);
+    }
+
+    @PutMapping("/persons/{personId}")
+    public PersonDTO updatePerson(
+            @PathVariable long personId,
+            @RequestBody PersonDTO personDTO
+    ) {
+        return personService.editPerson(personId, personDTO);
     }
 }
 

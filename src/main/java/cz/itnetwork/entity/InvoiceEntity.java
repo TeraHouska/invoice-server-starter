@@ -1,12 +1,10 @@
 package cz.itnetwork.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity(name = "invoice")
@@ -18,21 +16,30 @@ public class InvoiceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private int invoiceNumber;
 
-    private Date issued;
+    @Column(nullable = false)
+    private LocalDate issued;
 
-    private Date dueDate;
+    @Column(nullable = false)
+    private LocalDate dueDate;
 
+    @Column(nullable = false)
     private String product;
 
+    @Column(nullable = false)
     private Long price;
 
+    @Column(nullable = false)
     private int vat;
 
+    @Column(nullable = false)
     private String note;
 
-    //private Person buyer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PersonEntity buyer;
 
-    //private Person seller;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PersonEntity seller;
 }
