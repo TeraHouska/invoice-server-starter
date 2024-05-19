@@ -34,7 +34,6 @@ public class InvoiceEntity {
     @Column(nullable = false)
     private int vat;
 
-    @Column(nullable = false)
     private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)

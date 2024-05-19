@@ -19,6 +19,10 @@ public class InvoiceDTO {
 
     private int invoiceNumber;
 
+    private PersonDTO buyer;
+
+    private PersonDTO seller;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate issued;
 
@@ -32,8 +36,4 @@ public class InvoiceDTO {
     private int vat;
 
     private String note;
-
-    private PersonDTO buyer;
-
-    private PersonDTO seller;
 }
