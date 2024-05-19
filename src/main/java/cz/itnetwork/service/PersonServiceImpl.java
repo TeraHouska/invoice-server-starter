@@ -21,9 +21,12 @@
  */
 package cz.itnetwork.service;
 
+import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.PersonDTO;
+import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.PersonEntity;
+import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +43,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private InvoiceMapper invoiceMapper;
 
     public PersonDTO addPerson(PersonDTO personDTO) {
         PersonEntity entity = personMapper.toEntity(personDTO);
@@ -85,6 +94,30 @@ public class PersonServiceImpl implements PersonService {
             // The contract in the interface states, that no exception is thrown, if the entity is not found.
         }
         return null;
+    }
+
+    @Override
+    public List<InvoiceDTO> getInvoicesByBuyer(String identificationNumber) {
+        return invoiceRepository.findAll()
+                .stream()
+                .filter(invoiceEntity -> invoiceEntity
+                        .getBuyer()
+                        .getIdentificationNumber()
+                        .equals(identificationNumber))
+                .map(invoiceEntity -> invoiceMapper.toDTO(invoiceEntity))
+                .toList();
+    }
+
+    @Override
+    public List<InvoiceDTO> getInvoicesBySeller(String identificationNumber) {
+        return invoiceRepository.findAll()
+                .stream()
+                .filter(invoiceEntity -> invoiceEntity
+                        .getSeller()
+                        .getIdentificationNumber()
+                        .equals(identificationNumber))
+                .map(invoiceEntity -> invoiceMapper.toDTO(invoiceEntity))
+                .toList();
     }
 
     // region: Private methods

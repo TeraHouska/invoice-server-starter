@@ -30,7 +30,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         long sellerId = entity.getSeller().getId();
         resultDTO.setBuyer(personService.getPersonById(buyerId));
         resultDTO.setSeller(personService.getPersonById(sellerId));
-
+        //TODO: replace personService with personRepository.getRefferenceById()
         return resultDTO;
     }
 
