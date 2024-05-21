@@ -41,4 +41,9 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .map(invoiceEntity -> invoiceMapper.toDTO(invoiceEntity))
                 .toList();
     }
+
+    @Override
+    public InvoiceDTO findInvoiceById(long invoiceId) {
+        return invoiceMapper.toDTO(invoiceRepository.getReferenceById(invoiceId));
+    }
 }

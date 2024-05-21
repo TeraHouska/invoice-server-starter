@@ -8,4 +8,6 @@ public interface InvoiceService {
     InvoiceDTO addInvoice(InvoiceDTO invoiceDTO);
 
     List<InvoiceDTO> getAll();
+
+    InvoiceDTO findInvoiceById(long invoiceId);
 }

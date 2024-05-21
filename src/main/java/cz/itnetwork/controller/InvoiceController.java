@@ -22,4 +22,9 @@ public class InvoiceController {
     public List<InvoiceDTO> getInvoices() {
         return invoiceService.getAll();
     }
+
+    @GetMapping("/invoices/{invoiceId}")
+    public InvoiceDTO getInvoiceDetail(@PathVariable long invoiceId) {
+        return invoiceService.findInvoiceById(invoiceId);
+    }
 }
