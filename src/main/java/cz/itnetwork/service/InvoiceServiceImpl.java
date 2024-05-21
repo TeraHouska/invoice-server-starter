@@ -2,6 +2,7 @@ package cz.itnetwork.service;
 
 import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
+import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
@@ -18,7 +19,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     InvoiceRepository invoiceRepository;
     @Autowired
-    PersonService personService;
+    PersonMapper personMapper;
+    @Autowired
+    PersonRepository personRepository;
 
     @Override
     public InvoiceDTO addInvoice(InvoiceDTO invoiceDTO) {
@@ -28,9 +31,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         long buyerId = entity.getBuyer().getId();
         long sellerId = entity.getSeller().getId();
-        resultDTO.setBuyer(personService.getPersonById(buyerId));
-        resultDTO.setSeller(personService.getPersonById(sellerId));
-        //TODO: replace personService with personRepository.getRefferenceById()
+        resultDTO.setBuyer(personMapper.toDTO(personRepository.getReferenceById(buyerId)));
+        resultDTO.setSeller(personMapper.toDTO(personRepository.getReferenceById(sellerId)));
         return resultDTO;
     }
 
