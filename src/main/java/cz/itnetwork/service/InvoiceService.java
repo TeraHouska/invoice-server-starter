@@ -12,4 +12,6 @@ public interface InvoiceService {
     InvoiceDTO findInvoiceById(long invoiceId);
 
     void removeInvoice(long invoiceId);
+
+    InvoiceDTO editInvoice(long invoiceId, InvoiceDTO invoiceDTO);
 }

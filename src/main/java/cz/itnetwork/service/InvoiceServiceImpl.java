@@ -7,7 +7,6 @@ import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -55,6 +54,18 @@ public class InvoiceServiceImpl implements InvoiceService {
     public void removeInvoice(long invoiceId) {
         InvoiceEntity fetchedInvoice = fetchInvoiceOrThrow(invoiceId);
         invoiceRepository.delete(fetchedInvoice);
+    }
+
+    @Override
+    public InvoiceDTO editInvoice(long invoiceId, InvoiceDTO invoiceDTO) {
+        InvoiceEntity fetchedInvoice = fetchInvoiceOrThrow(invoiceId);
+        invoiceDTO.setId(invoiceId);
+        invoiceMapper.updateInvoiceEntity(invoiceDTO, fetchedInvoice);
+        InvoiceEntity resultEntity = invoiceRepository.save(fetchedInvoice);
+        InvoiceDTO resultDTO = invoiceMapper.toDTO(resultEntity);
+        resultDTO.setBuyer(personMapper.toDTO(personRepository.getReferenceById(resultDTO.getBuyer().getId())));
+        resultDTO.setSeller(personMapper.toDTO(personRepository.getReferenceById(resultDTO.getSeller().getId())));
+        return resultDTO;
     }
 
     //region: private methods

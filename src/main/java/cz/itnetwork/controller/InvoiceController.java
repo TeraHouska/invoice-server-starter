@@ -32,4 +32,9 @@ public class InvoiceController {
     public void removeInvoice(@PathVariable Long invoiceId) {
         invoiceService.removeInvoice(invoiceId);
     }
+
+    @PutMapping("/invoices/{invoiceId}")
+    public InvoiceDTO editInvoice(@PathVariable long invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
+        return invoiceService.editInvoice(invoiceId, invoiceDTO);
+    }
 }
