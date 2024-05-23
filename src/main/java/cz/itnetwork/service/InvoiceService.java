@@ -10,4 +10,6 @@ public interface InvoiceService {
     List<InvoiceDTO> getAll();
 
     InvoiceDTO findInvoiceById(long invoiceId);
+
+    void removeInvoice(long invoiceId);
 }

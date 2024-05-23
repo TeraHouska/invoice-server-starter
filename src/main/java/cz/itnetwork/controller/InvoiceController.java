@@ -27,4 +27,9 @@ public class InvoiceController {
     public InvoiceDTO getInvoiceDetail(@PathVariable long invoiceId) {
         return invoiceService.findInvoiceById(invoiceId);
     }
+
+    @DeleteMapping("/invoices/{invoiceId}")
+    public void removeInvoice(@PathVariable Long invoiceId) {
+        invoiceService.removeInvoice(invoiceId);
+    }
 }

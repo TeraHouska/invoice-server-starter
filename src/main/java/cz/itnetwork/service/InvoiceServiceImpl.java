@@ -7,7 +7,9 @@ import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 
@@ -46,6 +48,19 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceDTO findInvoiceById(long invoiceId) {
-        return invoiceMapper.toDTO(invoiceRepository.getReferenceById(invoiceId));
+        return invoiceMapper.toDTO(fetchInvoiceOrThrow(invoiceId));
     }
+
+    @Override
+    public void removeInvoice(long invoiceId) {
+        InvoiceEntity fetchedInvoice = fetchInvoiceOrThrow(invoiceId);
+        invoiceRepository.delete(fetchedInvoice);
+    }
+
+    //region: private methods
+    private InvoiceEntity fetchInvoiceOrThrow(long invoiceId) {
+        return invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new NotFoundException("Invoice with id " + invoiceId + " wasn't found in the database."));
+    }
+    //endregion
 }
