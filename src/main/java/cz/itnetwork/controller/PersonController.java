@@ -76,5 +76,10 @@ public class PersonController {
     public List<InvoiceDTO> getInvoicesByBuyer(@PathVariable String identificationNumber) {
         return personService.getInvoicesByBuyer(identificationNumber);
     }
+
+//    @GetMapping("/persons/statistics")
+//    public PersonStatsDTO getPersonStats() {
+//        return personService.getStats();
+//    }
 }
 

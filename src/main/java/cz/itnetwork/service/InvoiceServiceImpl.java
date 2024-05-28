@@ -1,6 +1,7 @@
 package cz.itnetwork.service;
 
 import cz.itnetwork.dto.InvoiceDTO;
+import cz.itnetwork.dto.InvoiceStatsDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.InvoiceEntity;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -66,6 +68,24 @@ public class InvoiceServiceImpl implements InvoiceService {
         resultDTO.setBuyer(personMapper.toDTO(personRepository.getReferenceById(resultDTO.getBuyer().getId())));
         resultDTO.setSeller(personMapper.toDTO(personRepository.getReferenceById(resultDTO.getSeller().getId())));
         return resultDTO;
+    }
+
+    @Override
+    public InvoiceStatsDTO getStats() {
+        InvoiceStatsDTO statsDTO = new InvoiceStatsDTO();
+        List<InvoiceEntity> fetchedInvoices = invoiceRepository.findAll();
+        int count = fetchedInvoices.size();
+        long allTimeSum = fetchedInvoices.stream()
+                .mapToLong(InvoiceEntity::getPrice)
+                .sum();
+        long currentYearSum = fetchedInvoices.stream()
+                .filter(invoiceEntity -> invoiceEntity.getIssued().getYear() == LocalDate.now().getYear())
+                .mapToLong(InvoiceEntity::getPrice)
+                .sum();
+        statsDTO.setAllTimeSum(allTimeSum);
+        statsDTO.setCurrentYearSum(currentYearSum);
+        statsDTO.setCount(count);
+        return statsDTO;
     }
 
     //region: private methods
