@@ -23,6 +23,7 @@ package cz.itnetwork.controller;
 
 import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.PersonDTO;
+import cz.itnetwork.dto.PersonStatsDTO;
 import cz.itnetwork.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -77,9 +78,9 @@ public class PersonController {
         return personService.getInvoicesByBuyer(identificationNumber);
     }
 
-//    @GetMapping("/persons/statistics")
-//    public PersonStatsDTO getPersonStats() {
-//        return personService.getStats();
-//    }
+    @GetMapping("/persons/statistics")
+    public List<PersonStatsDTO> getPersonStats() {
+        return personService.getStats();
+    }
 }
 

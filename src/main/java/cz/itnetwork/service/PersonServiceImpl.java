@@ -23,8 +23,10 @@ package cz.itnetwork.service;
 
 import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.PersonDTO;
+import cz.itnetwork.dto.PersonStatsDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.dto.mapper.PersonMapper;
+import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.PersonEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
@@ -120,6 +122,17 @@ public class PersonServiceImpl implements PersonService {
                 .toList();
     }
 
+    @Override
+    public List<PersonStatsDTO> getStats() {
+        List<PersonEntity> fetchedPersons = personRepository.findAll();
+        return fetchedPersons.stream()
+                .map(personEntity -> new PersonStatsDTO(
+                        personEntity.getId(),
+                        personEntity.getName(),
+                        getSumOfInvoicesBySellerId(personEntity.getId())))
+                .collect(Collectors.toList());
+    }
+
     // region: Private methods
     /**
      * <p>Attempts to fetch a person.</p>
@@ -132,6 +145,14 @@ public class PersonServiceImpl implements PersonService {
     private PersonEntity fetchPersonById(long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Person with id " + id + " wasn't found in the database."));
+    }
+
+    private long getSumOfInvoicesBySellerId(long id) {
+        return invoiceRepository.findAll()
+                .stream()
+                .filter(invoiceEntity -> invoiceEntity.getSeller().getId() == id)
+                .mapToLong(InvoiceEntity::getPrice)
+                .sum();
     }
     // endregion
 }
