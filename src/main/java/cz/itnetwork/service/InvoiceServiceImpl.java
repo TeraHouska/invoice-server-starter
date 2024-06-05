@@ -84,7 +84,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .sum();
         statsDTO.setAllTimeSum(allTimeSum);
         statsDTO.setCurrentYearSum(currentYearSum);
-        statsDTO.setCount(count);
+        statsDTO.setInvoicesCount(count);
         return statsDTO;
     }
 
