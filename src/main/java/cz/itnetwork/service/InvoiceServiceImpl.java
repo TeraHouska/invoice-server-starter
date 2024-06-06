@@ -5,9 +5,12 @@ import cz.itnetwork.dto.InvoiceStatsDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.InvoiceEntity;
+import cz.itnetwork.entity.filter.InvoiceFilter;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
+import cz.itnetwork.entity.repository.specification.InvoiceSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -40,8 +43,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<InvoiceDTO> getAll() {
-        return invoiceRepository.findAll()
+    public List<InvoiceDTO> getAll(InvoiceFilter filter) {
+        InvoiceSpecification invoiceSpecification = new InvoiceSpecification(filter);
+
+        return invoiceRepository.findAll(invoiceSpecification, PageRequest.of(0, filter.getLimit()))
                 .stream()
                 .map(invoiceEntity -> invoiceMapper.toDTO(invoiceEntity))
                 .toList();
