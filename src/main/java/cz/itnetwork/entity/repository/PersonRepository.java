@@ -23,6 +23,7 @@ package cz.itnetwork.entity.repository;
 
 import cz.itnetwork.entity.PersonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -31,5 +32,8 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
     List<PersonEntity> findByHidden(boolean hidden);
 
     List<PersonEntity> findByIdentificationNumber(String identificationNumber);
+
+//    @Query("SELECT DISTINCT p.identification_number FROM PersonEntity p")
+//    List<String> findDistinctIdentificationNumbers();
 
 }
