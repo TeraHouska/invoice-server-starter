@@ -53,10 +53,12 @@ public class PersonServiceImpl implements PersonService {
     private InvoiceMapper invoiceMapper;
 
     public PersonDTO addPerson(PersonDTO personDTO) {
-        PersonEntity entity = personMapper.toEntity(personDTO);
-        entity = personRepository.save(entity);
-
-        return personMapper.toDTO(entity);
+        if (personRepository.findByIdentificationNumber(personDTO.getIdentificationNumber()).isEmpty()) {
+            PersonEntity entity = personMapper.toEntity(personDTO);
+            entity = personRepository.save(entity);
+            return personMapper.toDTO(entity);
+        }
+        else throw new RuntimeException("IČ je již používané někým jiným.");
     }
 
     @Override

@@ -11,38 +11,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/invoices")
 public class InvoiceController {
     @Autowired
     InvoiceService invoiceService;
 
-    @PostMapping("/invoices")
+    @PostMapping
     public InvoiceDTO addInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         return invoiceService.addInvoice(invoiceDTO);
     }
 
-    @GetMapping("/invoices")
+    @GetMapping
     public List<InvoiceDTO> getInvoices(InvoiceFilter filter) {
         return invoiceService.getAll(filter);
     }
 
-    @GetMapping("/invoices/{invoiceId}")
+    @GetMapping("/{invoiceId}")
     public InvoiceDTO getInvoiceDetail(@PathVariable long invoiceId) {
         return invoiceService.findInvoiceById(invoiceId);
     }
 
-    @DeleteMapping("/invoices/{invoiceId}")
+    @DeleteMapping("/{invoiceId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeInvoice(@PathVariable Long invoiceId) {
         invoiceService.removeInvoice(invoiceId);
     }
 
-    @PutMapping("/invoices/{invoiceId}")
+    @PutMapping("/{invoiceId}")
     public InvoiceDTO editInvoice(@PathVariable long invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
         return invoiceService.editInvoice(invoiceId, invoiceDTO);
     }
 
-    @GetMapping("/invoices/statistics")
+    @GetMapping("/statistics")
     public InvoiceStatsDTO getInvoiceStats() {
         return invoiceService.getStats();
     }

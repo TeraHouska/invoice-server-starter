@@ -33,7 +33,4 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
 
     List<PersonEntity> findByIdentificationNumber(String identificationNumber);
 
-//    @Query("SELECT DISTINCT p.identification_number FROM PersonEntity p")
-//    List<String> findDistinctIdentificationNumbers();
-
 }
