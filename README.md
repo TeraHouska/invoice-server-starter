@@ -1,4 +1,4 @@
-Projekt Účetnictví - Evidence faktur
+Projekt Účetnictví - **Evidence faktur**
 
 Backendová část
 
